@@ -1,0 +1,168 @@
+# Represetation of a Tournament scoreboard
+class Tournament
+  TALLY_ROW_FORMAT = "%-31s| %2s | %2s | %2s | %2s | %2s\n"
+  TALLY_HEADER_NAMES = %w(Team MP W D L P)
+
+  attr_reader :results
+
+  def initialize(results)
+    @results = results
+  end
+
+  class << self
+    def header
+      TALLY_ROW_FORMAT % TALLY_HEADER_NAMES
+    end
+
+    def tally(results)
+      new(results).tally
+    end
+  end
+
+  def matches
+    results.strip.lines.map { |outcome| Match.new(outcome) }
+  end
+
+  def team_stats
+    team_stats = {}
+
+    matches.each do |match|
+      team_stats = match.team_stats team_stats
+    end
+
+    team_stats
+  end
+
+  def tally
+    "#{self.class.header}#{team_stats.values.sort.join('')}"
+  end
+end
+
+# A representation of a match
+class Match
+  WIN  = 'win'
+  LOSS = 'loss'
+  DRAW = 'draw'
+
+  attr_reader :team1, :team2, :result, :match_scorer
+
+  def initialize(outcome)
+    @team1, @team2, @result = outcome.split(';')
+    @match_scorer = get_match_scorer
+  end
+
+  def get_match_scorer
+    case result.chomp
+    when WIN
+      return WinScorer.new self
+    when LOSS
+      return LossScorer.new self
+    when DRAW
+      return DrawScorer.new self
+    end
+  end
+
+  def team_names
+    [team1, team2]
+  end
+
+  def team_stats(team_stats)
+    match_scorer.score team_stats
+  end
+end
+
+# match scorer base class
+class MatchScorer
+  attr_reader :match, :teams
+
+  def initialize(match)
+    @match = match
+  end
+
+  def score(teams)
+    teams = teams.dup
+
+    team_stats = match.team_names.map { |name| teams[name] ||= TeamStat.new(name: name) }
+
+    yield *team_stats
+
+    teams
+  end
+
+  # An individual team tournament statistic set
+  class TeamStat
+    WIN_POINTS = 3
+    DRAW_POINTS = 1
+
+    attr_reader :name, :matches_played, :wins, :draws, :losses, :points
+
+    def initialize(name:)
+      @name = name
+      @matches_played = 0
+      @wins = 0
+      @draws = 0
+      @losses = 0
+      @points = 0
+    end
+
+    def add_draw
+      @matches_played += 1
+      @draws  += 1
+      @points += DRAW_POINTS
+    end
+
+    def add_loss
+      @matches_played += 1
+      @losses += 1
+    end
+
+    def add_win
+      @matches_played += 1
+      @wins   += 1
+      @points += WIN_POINTS
+    end
+
+    def field_values
+      [name, matches_played, wins, draws, losses, points]
+    end
+
+    def to_str
+      Tournament::TALLY_ROW_FORMAT % field_values
+    end
+
+    def <=>(otherStat)
+      comparison = otherStat.points <=> points
+      comparison == 0 ? name <=> otherStat.name : comparison
+    end
+  end
+end
+
+# DrawScorer scores a draw
+class DrawScorer < MatchScorer
+  def score(teams)
+    super do |first_team_stat, second_team_stat|
+      first_team_stat.add_draw
+      second_team_stat.add_draw
+    end
+  end
+end
+
+# LossScorer scores a loss
+class LossScorer < MatchScorer
+  def score(teams)
+    super do |first_team_stat, second_team_stat|
+      second_team_stat.add_win
+      first_team_stat.add_loss
+    end
+  end
+end
+
+# WinScorer scores a win
+class WinScorer < MatchScorer
+  def score(teams)
+    super do |first_team_stat, second_team_stat|
+      first_team_stat.add_win
+      second_team_stat.add_loss
+    end
+  end
+end
