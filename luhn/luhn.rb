@@ -1,4 +1,4 @@
-class Luhn
+class LuhnValidator
   class << self
     def valid?(luhn_number)
       return false if luhn_number.gsub(/\s/, '').length <= 1
