@@ -24,7 +24,7 @@ class LuhnValidator
     luhn_number =~ INVALID_CHARACTERS
   end
 
-  def digit_sum_after_doubling
+  def digits_after_doubling
     luhn_number.split('').reverse.each_with_index.map do |digit, index|
 
       digit = digit.to_i
@@ -34,7 +34,11 @@ class LuhnValidator
       end
       digit
     end
-      .sum
+
+  end
+
+  def digit_sum_after_doubling
+    digits_after_doubling.sum
   end
 
   def too_short?
