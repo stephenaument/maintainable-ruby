@@ -1,3 +1,4 @@
+require_relative './array'
 require_relative './integer'
 
 class LuhnValidator
@@ -24,17 +25,14 @@ class LuhnValidator
     luhn_number =~ INVALID_CHARACTERS
   end
 
+  def digits
+    luhn_number.split('').map(&:to_i)
+  end
+
   def digits_after_doubling
-    luhn_number.split('').reverse.each_with_index.map do |digit, index|
-
-      digit = digit.to_i
-      if index.odd?
-        digit *= 2
-        digit -= 9 if digit > 9
-      end
-      digit
-    end
-
+    digits.reverse.each_pair.map do |first, second|
+      [first, DigitDoubler.double(second)].compact
+    end.flatten.reverse
   end
 
   def digit_sum_after_doubling
@@ -53,6 +51,13 @@ class LuhnValidator
   end
 
 private
+
+  def double(digit)
+    return unless digit
+    digit *= 2
+    digit -= 9 if digit > 9
+    digit
+  end
 
   def normalize(input)
     String(input).gsub(/\s/, '')
