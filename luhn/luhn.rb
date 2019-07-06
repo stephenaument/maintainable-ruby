@@ -1,4 +1,5 @@
 require_relative './array'
+require_relative './digit_doubler'
 require_relative './integer'
 require_relative './luhn_number_normalizer'
 
@@ -49,14 +50,5 @@ class LuhnValidator
     return false if invalid_characters?
 
     algorithm_matched?
-  end
-
-private
-
-  def double(digit)
-    return unless digit
-    digit *= 2
-    digit -= 9 if digit > 9
-    digit
   end
 end
