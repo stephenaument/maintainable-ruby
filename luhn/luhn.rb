@@ -1,4 +1,7 @@
 class LuhnValidator
+  INVALID_CHARACTERS = /\D/
+  MINIMUM_LENGTH = 2
+
   attr_reader :luhn_number
 
   def initialize(luhn_number)
@@ -25,11 +28,11 @@ class LuhnValidator
   end
 
   def invalid_characters?
-    luhn_number =~ /\D/
+    luhn_number =~ INVALID_CHARACTERS
   end
 
   def too_short?
-    luhn_number.length <= 1
+    luhn_number.length < MINIMUM_LENGTH
   end
 
   def valid?
@@ -42,6 +45,6 @@ class LuhnValidator
 private
 
   def normalize(input)
-    input.gsub(/\s/, '')
+    String(input).gsub(/\s/, '')
   end
 end
