@@ -1,3 +1,5 @@
+require_relative './integer'
+
 class LuhnValidator
   INVALID_CHARACTERS = /\D/
   MINIMUM_LENGTH = 2
@@ -15,6 +17,14 @@ class LuhnValidator
   end
 
   def algorithm_matched?
+    digit_sum_after_doubling.divisible_by? 10
+  end
+
+  def invalid_characters?
+    luhn_number =~ INVALID_CHARACTERS
+  end
+
+  def digit_sum_after_doubling
     luhn_number.split('').reverse.each_with_index.map do |digit, index|
 
       digit = digit.to_i
@@ -24,11 +34,7 @@ class LuhnValidator
       end
       digit
     end
-      .sum % 10 == 0
-  end
-
-  def invalid_characters?
-    luhn_number =~ INVALID_CHARACTERS
+      .sum
   end
 
   def too_short?
