@@ -1,3 +1,5 @@
+require_relative './team_match_outcomes'
+
 # A representation of a match outcome for a team
 #
 # An outcome is one of :win, :loss, :draw

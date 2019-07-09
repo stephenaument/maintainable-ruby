@@ -1,31 +1,24 @@
+require 'forwardable'
 require_relative './team_match_outcome'
 
 # An individual team tournament statistic set
 class TeamStat
+  extend Forwardable
+
   WIN_POINTS = 3
   DRAW_POINTS = 1
 
   attr_reader :name, :team_match_outcomes
 
-  def initialize(name:, team_match_outcomes: [])
+  def initialize(name:, team_match_outcomes: TeamMatchOutcomes.new)
     @name = name
     @team_match_outcomes = team_match_outcomes
   end
 
-  def draws
-    team_match_outcomes.count &:draw?
-  end
+  def_delegators :@team_match_outcomes, :draws, :losses, :matches_played, :points, :wins
 
   def field_values
     [name, matches_played, wins, draws, losses, points]
-  end
-
-  def losses
-    team_match_outcomes.count &:loss?
-  end
-
-  def matches_played
-    team_match_outcomes.count
   end
 
   def add_draw
@@ -38,14 +31,6 @@ class TeamStat
 
   def add_win
     @team_match_outcomes << TeamMatchOutcome.new(:win, WIN_POINTS)
-  end
-
-  def points
-    team_match_outcomes.sum &:points
-  end
-
-  def wins
-    team_match_outcomes.count &:win?
   end
 
   def to_str

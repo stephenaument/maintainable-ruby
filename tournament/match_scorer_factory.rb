@@ -19,7 +19,6 @@ class MatchScorerFactory
     @match = match
   end
 
-
   class << self
     def scorer(match)
       new(match).scorer
