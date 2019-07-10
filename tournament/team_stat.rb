@@ -1,5 +1,6 @@
 require 'forwardable'
 require_relative './team_match_outcome'
+require_relative './team_stat_comparator'
 require_relative './tournament'
 
 # An individual team tournament statistic set
@@ -46,7 +47,6 @@ class TeamStat
   end
 
   def <=>(other_stat)
-    comparison = other_stat.points <=> points
-    comparison == 0 ? name <=> other_stat.name : comparison
+    TeamStatComparator.compare(self, other_stat)
   end
 end
