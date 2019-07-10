@@ -1,4 +1,9 @@
+require_relative './team_stat'
+
 # match scorer base class
+#
+# Expects match.teams to return an array containing
+# exactly 2 team names.
 class MatchScorer
   attr_reader :match, :team_stats
 

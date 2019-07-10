@@ -1,5 +1,6 @@
 require 'forwardable'
 require_relative './team_match_outcome'
+require_relative './tournament'
 
 # An individual team tournament statistic set
 class TeamStat
