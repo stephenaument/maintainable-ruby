@@ -1,3 +1,5 @@
+# Class responsible for doubling a digit in a luhn string. If the result
+# is double-digits, subtract 9 from the results.
 class DigitDoubler
   MAX_DIGIT = 9
 
@@ -23,6 +25,6 @@ class DigitDoubler
   end
 
   def doubled_digit
-    Integer(digit) * 2
+    @doubled_digit ||= Integer(digit) * 2
   end
 end
