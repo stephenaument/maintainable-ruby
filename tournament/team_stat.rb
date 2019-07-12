@@ -27,6 +27,6 @@ class TeamStat
   end
 
   def to_str
-    "%-31s| %2s | %2s | %2s | %2s | %2s\n" % [name, matches_played, wins, draws, losses, points]
+    Tournament::TALLY_ROW_FORMAT % [name, matches_played, wins, draws, losses, points]
   end
 end
