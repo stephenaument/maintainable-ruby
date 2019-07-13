@@ -1,36 +1,25 @@
+require_relative './match_scorer'
+require_relative './match_scorer_factory'
+
 class Match
 
   attr_reader :teams, :outcome
 
   def initialize(result)
-    *@teams, @outcome = result.chomp.split(';')
+    *@teams, @outcome = parse result
+  end
+
+  def scorer
+    MatchScorerFactory.scorer self
   end
 
   def team_stats
-    first_team, second_team = *teams
+    scorer.team_stats
+  end
 
-    team_stats = []
+private
 
-    team_stats << TeamStat.new(name: first_team)
-    team_stats << TeamStat.new(name: second_team)
-    team_stats.first.matches_played += 1
-    team_stats.last.matches_played += 1
-
-    if outcome == 'win'
-      team_stats.first.wins += 1
-      team_stats.first.points += 3
-      team_stats.last.losses += 1
-    elsif outcome == 'loss'
-      team_stats.last.wins += 1
-      team_stats.last.points += 3
-      team_stats.first.losses += 1
-    else
-      team_stats.first.draws += 1
-      team_stats.first.points += 1
-      team_stats.last.draws += 1
-      team_stats.last.points += 1
-    end
-
-    team_stats
+  def parse(result)
+    result.chomp.split(';')
   end
 end
