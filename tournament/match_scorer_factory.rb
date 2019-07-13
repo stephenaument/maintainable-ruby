@@ -12,12 +12,14 @@ class MatchScorerFactory
   end
 
   def scorer
-    if match.outcome == 'win'
-      WinScorer.new(match)
-    elsif match.outcome == 'loss'
-      LossScorer.new(match)
-    else
-      DrawScorer.new(match)
-    end
+    scorer_class.new match
+  end
+
+  def scorer_class
+    Object.const_get scorer_classname
+  end
+
+  def scorer_classname
+    "#{match.outcome.capitalize}Scorer"
   end
 end
