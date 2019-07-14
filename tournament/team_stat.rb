@@ -1,6 +1,7 @@
 require 'forwardable'
 require_relative './team_match_outcome'
 require_relative './team_match_outcome_collection'
+require_relative './team_stat_comparator'
 
 class TeamStat
   extend Forwardable
@@ -45,7 +46,6 @@ class TeamStat
   end
 
   def <=>(other_team_stat)
-    cmp = other_team_stat.points <=> self.points
-    cmp == 0 ? self.name <=> other_team_stat.name : cmp
+    TeamStatComparator.compare(self, other_team_stat)
   end
 end
