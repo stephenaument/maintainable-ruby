@@ -1,3 +1,4 @@
+# A collection of `TeamMatchOutcome` objects
 class TeamMatchOutcomeCollection
   attr_reader :team_match_outcomes
 

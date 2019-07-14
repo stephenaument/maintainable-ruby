@@ -1,3 +1,6 @@
+# A representation of a match outcome for a team
+#
+# An outcome is one of :win, :loss, :draw
 class TeamMatchOutcome
   attr_reader :outcome, :points
 

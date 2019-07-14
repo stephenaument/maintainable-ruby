@@ -1,3 +1,15 @@
+# Returns an appropriate match scorer based on the
+# match result.
+#
+# The `MatchScorerFactory` follows a class naming convention
+# in which the result is capitalized and concatenated to 'Scorer'.
+#
+# For instance, if the result is 'draw', the equivalent scorer class
+# is called `DrawScorer`.
+#
+# If a new possible match result is added to the system, this factory
+# does not need to change, but the appropriate scorer class must be
+# added.
 class MatchScorerFactory
   attr_reader :match
 

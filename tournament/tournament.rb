@@ -1,6 +1,33 @@
 require_relative './match'
 require_relative './team_stat'
 
+# Reprentation of a Tournament scoreboard
+#
+# Match results are provided as lined input, with each line specifying two team
+# names and an outcome, each field delimited by a semicolon, like this:
+#
+#     Tournament.tally results
+#
+# where results is:
+#
+#     Allegoric Alaskans;Blithering Badgers;win
+#     Devastating Donkeys;Courageous Californians;draw
+#     Devastating Donkeys;Allegoric Alaskans;win
+#     Courageous Californians;Blithering Badgers;loss
+#     Blithering Badgers;Devastating Donkeys;loss
+#     Allegoric Alaskans;Courageous Californians;win
+#
+# A win earns 3 points, a draw 1 point, a loss 0 points.
+#
+# The results are tallied and returned as a table like this:
+#
+#     Team                           | MP |  W |  D |  L |  P
+#     Devastating Donkeys            |  3 |  2 |  1 |  0 |  7
+#     Allegoric Alaskans             |  3 |  2 |  0 |  1 |  6
+#     Blithering Badgers             |  3 |  1 |  0 |  2 |  3
+#     Courageous Californians        |  3 |  0 |  1 |  2 |  1
+#
+# The columns represent the team name, matches played, wins, draws, losses, and points.
 class Tournament
   TALLY_ROW_FORMAT = "%-31s| %2s | %2s | %2s | %2s | %2s\n"
   TALLY_HEADER_VALUES = %w(Team MP W D L P)
