@@ -31,7 +31,7 @@ class LuhnValidator
 
   def digits_after_doubling
     digits.reverse.each_pair.map do |first, second|
-      [first, DigitDoubler.double(second)].compact
+      [first, double(second)].compact
     end.flatten.reverse
   end
 
