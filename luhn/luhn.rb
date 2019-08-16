@@ -1,4 +1,5 @@
 require_relative './array'
+require_relative './digit_doubler'
 require_relative './integer'
 
 class LuhnValidator
@@ -31,7 +32,7 @@ class LuhnValidator
 
   def digits_after_doubling
     digits.reverse.each_pair.map do |first, second|
-      [first, double(second)].compact
+      [first, DigitDoubler.double(second)].compact
     end.flatten.reverse
   end
 
@@ -48,14 +49,5 @@ class LuhnValidator
     return false if invalid_characters?
 
     algorithm_matched?
-  end
-
-private
-
-  def double(digit)
-    return unless digit
-    digit *= 2
-    digit -= 9 if digit > 9
-    digit
   end
 end
