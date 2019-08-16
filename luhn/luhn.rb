@@ -24,16 +24,19 @@ class LuhnValidator
     luhn_number =~ INVALID_CHARACTERS
   end
 
-  def digits_after_doubling
-    luhn_number.split('').reverse.each_with_index.map do |digit, index|
+  def digits
+    luhn_number.split('').map(&:to_i)
+  end
 
-      digit = digit.to_i
+  def digits_after_doubling
+    digits.reverse.each_with_index.map do |digit, index|
+
       if index.odd?
         digit *= 2
         digit -= 9 if digit > 9
       end
       digit
-    end
+    end.reverse
 
   end
 
