@@ -3,6 +3,10 @@ require_relative 'luhn'
 
 # Common test data version: 1.4.0 4a80663
 class LuhnTest < Minitest::Test
+  def test_nil_input_is_not_valid
+    refute LuhnValidator.valid? nil
+  end
+
   def test_single_digit_strings_can_not_be_valid
     refute LuhnValidator.valid?("1")
   end
