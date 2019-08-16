@@ -5,6 +5,7 @@ require_relative './luhn_number_normalizer'
 
 class LuhnValidator
   INVALID_CHARACTERS = /\D/
+  LUHN_ALGORITHM_DIVISOR = 10
   MINIMUM_LENGTH = 2
 
   attr_reader :luhn_number
@@ -20,7 +21,7 @@ class LuhnValidator
   end
 
   def algorithm_matched?
-    digit_sum_after_doubling.divisible_by? 10
+    digit_sum_after_doubling.divisible_by? LUHN_ALGORITHM_DIVISOR
   end
 
   def invalid_characters?
@@ -28,7 +29,7 @@ class LuhnValidator
   end
 
   def digits
-    luhn_number.split('').map(&:to_i)
+    luhn_number.each_char.map(&:to_i)
   end
 
   def digits_after_doubling
