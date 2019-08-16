@@ -8,7 +8,7 @@ class LuhnValidator
   attr_reader :luhn_number
 
   def initialize(luhn_number)
-    @luhn_number = normalize luhn_number
+    @luhn_number = LuhnNumberNormalizer.normalize(luhn_number)
   end
 
   class << self
@@ -57,9 +57,5 @@ private
     digit *= 2
     digit -= 9 if digit > 9
     digit
-  end
-
-  def normalize(input)
-    String(input).gsub(/\s/, '')
   end
 end
