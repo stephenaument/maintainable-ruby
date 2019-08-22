@@ -10,17 +10,6 @@ class TeamStat
     @points = points
   end
 
-  def +(other_team_stat)
-    TeamStat.new(
-      name: name,
-      matches_played: matches_played + other_team_stat.matches_played,
-      wins: wins + other_team_stat.wins,
-      draws: draws + other_team_stat.draws,
-      losses: losses + other_team_stat.losses,
-      points: points + other_team_stat.points,
-    )
-  end
-
   def <=>(other_team_stat)
     cmp = other_team_stat.points <=> self.points
     cmp == 0 ? self.name <=> other_team_stat.name : cmp
