@@ -4,7 +4,7 @@
 # to alphabetical sorting by name.
 #
 # Like the usual `<=>` method on an object,
-# TeamStatComparator.compare returns -1, 0, or 1.
+# TeamStatComparater.compare returns -1, 0, or 1.
 class TeamStatComparator
   attr_reader :team_stats
 

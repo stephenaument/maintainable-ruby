@@ -3,6 +3,7 @@ require_relative './team_match_outcome'
 require_relative './team_match_outcome_collection'
 require_relative './team_stat_comparator'
 
+# An individual team tournament statistic set
 class TeamStat
   extend Forwardable
 

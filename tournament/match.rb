@@ -1,6 +1,7 @@
 require_relative './match_scorer'
 require_relative './match_scorer_factory'
 
+# A representation of a Match
 class Match
 
   attr_reader :teams, :outcome
