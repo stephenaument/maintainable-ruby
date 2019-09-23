@@ -4,16 +4,20 @@ require_relative './team_stat'
 class Tournament
   HEADER = "Team                           | MP |  W |  D |  L |  P\n"
 
-  attr_reader :games
+  attr_reader :results
 
-  def initialize(games)
-    @games = games
+  def initialize(results)
+    @results = results.strip
   end
 
   class << self
-    def tally(games)
-      new(games).tally
+    def tally(results)
+      new(results).tally
     end
+  end
+
+  def matches
+    results.lines.map { |result| Match.new result }
   end
 
   def tally
@@ -23,10 +27,8 @@ class Tournament
   def team_stats
     team_stats = {}
 
-    games.each_line do |game|
-      next if game.chomp!.empty?
-
-      first_team, second_team, outcome = game.split(';')
+    matches.each do |match|
+      first_team, second_team, outcome = *match.teams, match.outcome
 
       team_stats[first_team] ||= TeamStat.new(name: first_team)
       team_stats[second_team] ||= TeamStat.new(name: second_team)
@@ -50,5 +52,13 @@ class Tournament
     end
 
     team_stats.values
+  end
+end
+
+class Match
+  attr_reader :teams, :outcome
+
+  def initialize(result)
+    *@teams, @outcome = result.chomp.split(';')
   end
 end
