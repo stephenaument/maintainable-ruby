@@ -1,7 +1,26 @@
 class Resistor
   def initialize(*colors)
-    @tolerance_color = colors.last
-    @multiplier_color = colors[-2]
+    *@digit_colors, @multiplier_color, @tolerance_color = colors
+  end
+
+  def digits
+    digit_values = {
+      'black'  => 0,
+      'brown'  => 1,
+      'red'    => 2,
+      'orange' => 3,
+      'yellow' => 4,
+      'green'  => 5,
+      'blue'   => 6,
+      'violet' => 7,
+      'gray'   => 8,
+      'grey'   => 8,
+      'white'  => 9,
+    }
+
+    @digit_colors.map do |color|
+      digit_values[color]
+    end.join.to_i
   end
 
   def multiplier
@@ -38,5 +57,9 @@ class Resistor
     }
 
     color_values[@tolerance_color]
+  end
+
+  def value
+    digits * multiplier * 1_000
   end
 end
