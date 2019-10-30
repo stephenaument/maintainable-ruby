@@ -23,6 +23,58 @@ describe Resistor do
     end
   end
 
+  describe '#human_value' do
+    describe 'when given 4 colors' do
+      it 'returns the correct value in human-readable form' do
+        expect(subject.human_value).must_equal '560kΩ'
+      end
+    end
+
+    describe 'when given 5 colors' do
+      let(:colors) { five_colors}
+
+      it 'returns the correct value in human-readable form' do
+        expect(subject.human_value).must_equal '237Ω'
+      end
+    end
+
+    describe 'when testing a range of values' do
+      # all the resistors in my personal resistor kit
+      let(:reference_results) do
+        {
+          %w[brown black black gold brown]     => '10Ω',
+          %w[yellow violet black gold brown]   => '47Ω',
+          %w[brown black black black brown]    => '100Ω',
+          %w[red red black black brown]        => '220Ω',
+          %w[orange orange black black brown]  => '330Ω',
+          %w[yellow violet black black brown]  => '470Ω',
+          %w[blue grey black black brown]      => '680Ω',
+          %w[brown black black brown brown]    => '1kΩ',
+          %w[red black black brown brown]      => '2kΩ',
+          %w[red red black brown brown]        => '2.2kΩ',
+          %w[orange orange black brown brown]  => '3.3kΩ',
+          %w[yellow violet black brown brown]  => '4.7kΩ',
+          %w[green brown black brown brown]    => '5.1kΩ',
+          %w[blue grey black brown brown]      => '6.8kΩ',
+          %w[brown black black red brown]      => '10kΩ',
+          %w[red red black red brown]          => '22kΩ',
+          %w[blue grey black red brown]        => '68kΩ',
+          %w[brown black black orange brown]   => '100kΩ',
+          %w[yellow violet black orange brown] => '470kΩ',
+          %w[blue grey black orange brown]     => '680kΩ',
+          %w[brown black black yellow brown]   => '1MΩ',
+        }
+      end
+
+      it 'returns the correct value in human-readable form' do
+        reference_results.each do |colors, expected|
+          subject = Resistor.new(*colors)
+          expect(subject.human_value).must_equal expected
+        end
+      end
+    end
+  end
+
   describe '#multiplier' do
     describe 'when given 4 colors' do
       it 'returns the correct value' do
