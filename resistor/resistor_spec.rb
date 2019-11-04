@@ -23,6 +23,22 @@ describe Resistor do
     end
   end
 
+  describe '#human_multiplier' do
+    describe 'when given 4 colors' do
+      it 'returns the correct value' do
+        expect(subject.human_multiplier).must_equal '10kΩ'
+      end
+    end
+
+    describe 'when given 5 colors' do
+      let(:colors) { five_colors}
+
+      it 'returns the correct value' do
+        expect(subject.human_multiplier).must_equal '1Ω'
+      end
+    end
+  end
+
   describe '#human_value' do
     describe 'when given 4 colors' do
       it 'returns the correct value in human-readable form' do

@@ -23,6 +23,26 @@ class Resistor
     end.join.to_i
   end
 
+  def human_multiplier
+    human_multiplier_values = {
+      'black'  => '1Ω',
+      'brown'  => '10Ω',
+      'red'    => '100Ω',
+      'orange' => '1kΩ',
+      'yellow' => '10kΩ',
+      'green'  => '100kΩ',
+      'blue'   => '1MΩ',
+      'violet' => '10MΩ',
+      'gray'   => '100MΩ',
+      'grey'   => '100MΩ',
+      'white'  => '1GΩ',
+      'gold'   => '0.1Ω',
+      'silver' => '0.01Ω',
+    }
+
+    human_multiplier_values[@multiplier_color]
+  end
+
   def human_value
     unit = case value
            when (0..999)
