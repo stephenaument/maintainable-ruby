@@ -1,6 +1,9 @@
 class Resistor
   def initialize(*colors)
     *@digit_colors, @multiplier_color, @tolerance_color = colors
+
+    raise ArgumentError, 'given fewer than 4 colors' if colors.length < 4
+    raise ArgumentError, 'given more than 5 colors' if colors.length > 5
   end
 
   class << self

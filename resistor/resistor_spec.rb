@@ -7,6 +7,22 @@ describe Resistor do
   let(:colors) { four_colors }
   let(:subject) { Resistor.new(*colors) }
 
+  describe 'validations' do
+    describe 'when given too few arguments' do
+      it 'raises an argument error' do
+        error = expect { Resistor.new(*%w[green blue yellow]) }.must_raise ArgumentError
+        expect(error.message).must_equal 'given fewer than 4 colors'
+      end
+    end
+
+    describe 'when given too many arguments' do
+      it 'raises an argument error' do
+        error = expect { Resistor.new(*%w[green blue yellow green blue yellow]) }.must_raise ArgumentError
+        expect(error.message).must_equal 'given more than 5 colors'
+      end
+    end
+  end
+
   describe '.human_value' do
     describe 'when given 4 colors' do
       it 'returns the correct value in human-readable form' do
