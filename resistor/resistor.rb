@@ -3,6 +3,16 @@ class Resistor
     *@digit_colors, @multiplier_color, @tolerance_color = colors
   end
 
+  class << self
+    def human_value(*colors)
+      new(*colors).human_value
+    end
+
+    def value(*colors)
+      new(*colors).value
+    end
+  end
+
   def digits
     digit_values = {
       'black'  => 0,

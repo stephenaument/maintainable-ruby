@@ -7,6 +7,22 @@ describe Resistor do
   let(:colors) { four_colors }
   let(:subject) { Resistor.new(*colors) }
 
+  describe '.human_value' do
+    describe 'when given 4 colors' do
+      it 'returns the correct value in human-readable form' do
+        expect(Resistor.human_value(*colors)).must_equal '560kΩ'
+      end
+    end
+  end
+
+  describe '.value' do
+    describe 'when given 4 colors' do
+      it 'returns the correct vaule in milliohms' do
+        expect(Resistor.value(*colors)).must_equal 560_000_000
+      end
+    end
+  end
+
   describe '#digits' do
     describe 'when given 4 color bands' do
       it 'returns a 2 digit number' do
