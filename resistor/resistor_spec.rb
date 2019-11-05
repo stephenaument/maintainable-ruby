@@ -175,6 +175,22 @@ describe Resistor do
     end
   end
 
+  describe '#to_s' do
+    describe 'when given 4 colors' do
+      it 'returns the human-readable value plus tolerance' do
+        expect(subject.to_s).must_equal '560kΩ ±5%'
+      end
+    end
+
+    describe 'when given 5 colors' do
+      let(:colors) { five_colors}
+
+      it 'returns the human-readable value plus tolerance' do
+        expect(subject.to_s).must_equal '237Ω ±1%'
+      end
+    end
+  end
+
   describe '#value' do
     describe 'when given 4 colors' do
       it 'returns the correct vaule in milliohms' do

@@ -111,6 +111,10 @@ class Resistor
     color_values[@tolerance_color]
   end
 
+  def to_s
+    "#{human_value} #{tolerance}"
+  end
+
   def value
     digits * multiplier * 1_000
   end
