@@ -21,6 +21,33 @@ describe Resistor do
         expect(error.message).must_equal 'given more than 5 colors'
       end
     end
+
+    describe 'digits' do
+      describe 'when given invalid digit colors' do
+        it 'raises an argument error' do
+          error = expect { Resistor.new(*%w[burple blue boople black gold]) }.must_raise ArgumentError
+          expect(error.message).must_equal 'invalid digit color(s) given: burple, boople'
+        end
+      end
+    end
+
+    describe 'multiplier' do
+      describe 'when given an invalid multiplier color' do
+        it 'raises an argument error' do
+          error = expect { Resistor.new(*%w[green blue burple gold]) }.must_raise ArgumentError
+          expect(error.message).must_equal 'invalid multiplier color given: burple'
+        end
+      end
+    end
+
+    describe 'tolerance' do
+      describe 'when given an invalid tolerance color' do
+        it 'raises an argument error' do
+          error = expect { Resistor.new(*%w[green blue yellow burple]) }.must_raise ArgumentError
+          expect(error.message).must_equal 'invalid tolerance color given: burple'
+        end
+      end
+    end
   end
 
   describe '.human_value' do
