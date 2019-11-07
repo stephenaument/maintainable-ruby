@@ -1,4 +1,5 @@
 require_relative './resistor_validator'
+require_relative './tolerance'
 
 class Resistor
   attr_reader :colors, :digit_colors, :multiplier_color, :tolerance_color
@@ -7,6 +8,7 @@ class Resistor
     *@digit_colors, @multiplier_color, @tolerance_color = @colors = colors
 
     ResistorValidator.new(self).validate!
+    @tolerance = Tolerance.new(@tolerance_color)
   end
 
   class << self
@@ -112,19 +114,7 @@ class Resistor
   end
 
   def tolerance
-    color_values = {
-      'brown'  => '±1%',
-      'red'    => '±2%',
-      'green'  => '±0.5%',
-      'blue'   => '±0.25%',
-      'violet' => '±0.1%',
-      'grey'   => '±0.05%',
-      'gray'   => '±0.05%',
-      'gold'   => '±5%',
-      'silver' => '±10%',
-    }
-
-    color_values[@tolerance_color]
+    @tolerance.tolerance
   end
 
   def to_s
