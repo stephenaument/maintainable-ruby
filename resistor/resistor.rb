@@ -1,3 +1,4 @@
+require_relative './digits'
 require_relative './resistor_validator'
 require_relative './tolerance'
 
@@ -8,6 +9,7 @@ class Resistor
     *@digit_colors, @multiplier_color, @tolerance_color = @colors = colors
 
     ResistorValidator.new(self).validate!
+    @digits = Digits.new(@digit_colors)
     @tolerance = Tolerance.new(@tolerance_color)
   end
 
@@ -22,23 +24,7 @@ class Resistor
   end
 
   def digits
-    digit_values = {
-      'black'  => 0,
-      'brown'  => 1,
-      'red'    => 2,
-      'orange' => 3,
-      'yellow' => 4,
-      'green'  => 5,
-      'blue'   => 6,
-      'violet' => 7,
-      'gray'   => 8,
-      'grey'   => 8,
-      'white'  => 9,
-    }
-
-    @digit_colors.map do |color|
-      digit_values[color]
-    end.join.to_i
+    @digits.digits
   end
 
   def human_multiplier
