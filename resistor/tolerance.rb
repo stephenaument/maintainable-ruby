@@ -5,7 +5,7 @@ class Tolerance
     @color = color
   end
 
-  def tolerance
+  def to_s
     color_values = {
       'brown'  => '±1%',
       'red'    => '±2%',

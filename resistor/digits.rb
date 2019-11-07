@@ -5,7 +5,7 @@ class Digits
     @colors = colors
   end
 
-  def digits
+  def value
     digit_values = {
       'black'  => 0,
       'brown'  => 1,
