@@ -3,6 +3,10 @@ class Digits
 
   def initialize(colors)
     @colors = colors
+
+    known_digit_colors = %w[black brown red orange yellow green blue violet gray grey white]
+    invalid_digit_colors = @colors - known_digit_colors
+    raise ArgumentError, "invalid digit color(s) given: #{invalid_digit_colors.join(', ')}" if invalid_digit_colors.any?
   end
 
   def value

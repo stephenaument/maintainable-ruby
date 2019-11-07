@@ -3,6 +3,9 @@ class Multiplier
 
   def initialize(color)
     @color = color
+
+    known_multiplier_colors = %w[black brown red orange yellow green blue violet gray grey white gold silver]
+    raise ArgumentError, "invalid multiplier color given: #{@color}" unless known_multiplier_colors.include? @color
   end
 
   def to_s

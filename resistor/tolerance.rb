@@ -3,6 +3,9 @@ class Tolerance
 
   def initialize(color)
     @color = color
+
+    known_tolerance_colors = %w[brown red green blue violet gray grey gold silver]
+    raise ArgumentError, "invalid tolerance color given: #{@color}" unless known_tolerance_colors.include? @color
   end
 
   def to_s
