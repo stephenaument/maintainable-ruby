@@ -2,6 +2,7 @@ require_relative './digits'
 require_relative './multiplier'
 require_relative './resistor_validator'
 require_relative './tolerance'
+require_relative './value'
 
 class Resistor
   attr_reader :colors, :digit_colors, :multiplier_color, :tolerance_color
@@ -13,6 +14,7 @@ class Resistor
     @digits = Digits.new(@digit_colors)
     @multiplier = Multiplier.new(@multiplier_color)
     @tolerance = Tolerance.new(@tolerance_color)
+    @value = Value.new(digits: digits, multiplier: multiplier)
   end
 
   class << self
@@ -34,35 +36,7 @@ class Resistor
   end
 
   def human_value
-    unit = case value
-           when (0..999)
-             'mΩ'
-           when (1_000..999_999)
-             'Ω'
-           when (1_000_000..999_999_999)
-             'kΩ'
-           when (1_000_000_000..999_999_999_999)
-             'MΩ'
-           else
-             'GΩ'
-           end
-
-    unit_scale_divisor = case value
-                         when (0..999)
-                           1
-                         when (1_000..999_999)
-                           1_000
-                         when (1_000_000..999_999_999)
-                           1_000_000
-                         when (1_000_000_000..999_999_999_999)
-                           1_000_000_000
-                         else
-                           1_000_000_000_000
-                         end
-
-    unit_scaled_value = value.to_f / unit_scale_divisor
-
-    '%g%s' % [unit_scaled_value, unit]
+    @value.to_s
   end
 
   def multiplier
@@ -78,6 +52,6 @@ class Resistor
   end
 
   def value
-    digits * multiplier * 1_000
+    @value.value
   end
 end
