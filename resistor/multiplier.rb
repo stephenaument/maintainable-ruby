@@ -1,3 +1,5 @@
+require_relative './single_color_validator'
+
 class Multiplier
   COLOR_VALUES = {
     'black'  => 1,
@@ -36,7 +38,7 @@ class Multiplier
   def initialize(color)
     @color = color
 
-    Validator.new(self).validate!
+    SingleColorValidator.new(self, COLOR_VALUES.keys).validate!
   end
 
   def to_s
@@ -45,29 +47,5 @@ class Multiplier
 
   def value
     COLOR_VALUES[@color]
-  end
-
-  class Validator
-    attr_reader :multiplier
-
-    def initialize(multiplier)
-      @multiplier = multiplier
-    end
-
-    def color
-      multiplier.color
-    end
-
-    def known_colors
-      COLOR_VALUES.keys
-    end
-
-    def message
-      "invalid multiplier color given: #{color}"
-    end
-
-    def validate!
-      raise ArgumentError, message unless known_colors.include? color
-    end
   end
 end

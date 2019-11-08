@@ -1,3 +1,5 @@
+require_relative './single_color_validator'
+
 class Tolerance
   COLOR_VALUES = {
     'brown'  => '±1%',
@@ -16,34 +18,10 @@ class Tolerance
   def initialize(color)
     @color = color
 
-    Validator.new(self).validate!
+    SingleColorValidator.new(self, COLOR_VALUES.keys).validate!
   end
 
   def to_s
     COLOR_VALUES[@color]
-  end
-
-  class Validator
-    attr_reader :tolerance
-
-    def initialize(tolerance)
-      @tolerance = tolerance
-    end
-
-    def color
-      tolerance.color
-    end
-
-    def known_colors
-      COLOR_VALUES.keys
-    end
-
-    def message
-      "invalid tolerance color given: #{color}"
-    end
-
-    def validate!
-      raise ArgumentError, message unless known_colors.include? color
-    end
   end
 end
