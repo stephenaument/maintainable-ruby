@@ -1,57 +1,45 @@
+require 'forwardable'
 require_relative './digits'
 require_relative './multiplier'
 
 class Value
+  extend Forwardable
+
+  MILLIS_MULTIPLIER = 1_000
+  UNITS = %w[mΩ Ω kΩ MΩ GΩ]
+  VALUE_FORMAT = '%g%s'
+  VALUES_PER_UNIT = 1_000
+
   def initialize(digit_colors:, multiplier_color:)
     @digits = Digits.new digit_colors
     @multiplier = Multiplier.new multiplier_color
   end
 
-  def digits
-    @digits.value
-  end
+  def_delegator :@digits, :value, :digits
+  def_delegator :@multiplier, :to_s, :human_multiplier
+  def_delegator :@multiplier, :value, :multiplier
 
-  def human_multiplier
-    @multiplier.to_s
-  end
-
-  def multiplier
-    @multiplier.value
-  end
-
-  def value
-    digits * multiplier * 1_000
+  def exponent
+    Math.log(value, VALUES_PER_UNIT).floor
   end
 
   def to_s
-    unit = case value
-           when (0..999)
-             'mΩ'
-           when (1_000..999_999)
-             'Ω'
-           when (1_000_000..999_999_999)
-             'kΩ'
-           when (1_000_000_000..999_999_999_999)
-             'MΩ'
-           else
-             'GΩ'
-           end
+    VALUE_FORMAT % [unit_scaled_value, unit]
+  end
 
-    unit_scale_divisor = case value
-                         when (0..999)
-                           1
-                         when (1_000..999_999)
-                           1_000
-                         when (1_000_000..999_999_999)
-                           1_000_000
-                         when (1_000_000_000..999_999_999_999)
-                           1_000_000_000
-                         else
-                           1_000_000_000_000
-                         end
+  def unit
+    UNITS[exponent]
+  end
 
-    unit_scaled_value = value.to_f / unit_scale_divisor
+  def unit_scale_divisor
+    VALUES_PER_UNIT ** exponent
+  end
 
-    '%g%s' % [unit_scaled_value, unit]
+  def unit_scaled_value
+    value.to_f / unit_scale_divisor
+  end
+
+  def value
+    digits * multiplier * MILLIS_MULTIPLIER
   end
 end
