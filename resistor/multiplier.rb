@@ -1,50 +1,73 @@
 class Multiplier
+  COLOR_VALUES = {
+    'black'  => 1,
+    'brown'  => 10,
+    'red'    => 100,
+    'orange' => 1_000,
+    'yellow' => 10_000,
+    'green'  => 100_000,
+    'blue'   => 1_000_000,
+    'violet' => 10_000_000,
+    'grey'   => 100_000_000,
+    'gray'   => 100_000_000,
+    'white'  => 1_000_000_000,
+    'gold'   => 0.1,
+    'silver' => 0.01,
+  }
+
+  HUMAN_COLOR_VALUES = {
+    'black'  => '1Ω',
+    'brown'  => '10Ω',
+    'red'    => '100Ω',
+    'orange' => '1kΩ',
+    'yellow' => '10kΩ',
+    'green'  => '100kΩ',
+    'blue'   => '1MΩ',
+    'violet' => '10MΩ',
+    'gray'   => '100MΩ',
+    'grey'   => '100MΩ',
+    'white'  => '1GΩ',
+    'gold'   => '0.1Ω',
+    'silver' => '0.01Ω',
+  }
+
   attr_reader :color
 
   def initialize(color)
     @color = color
 
-    known_multiplier_colors = %w[black brown red orange yellow green blue violet gray grey white gold silver]
-    raise ArgumentError, "invalid multiplier color given: #{@color}" unless known_multiplier_colors.include? @color
+    Validator.new(self).validate!
   end
 
   def to_s
-    human_multiplier_values = {
-      'black'  => '1Ω',
-      'brown'  => '10Ω',
-      'red'    => '100Ω',
-      'orange' => '1kΩ',
-      'yellow' => '10kΩ',
-      'green'  => '100kΩ',
-      'blue'   => '1MΩ',
-      'violet' => '10MΩ',
-      'gray'   => '100MΩ',
-      'grey'   => '100MΩ',
-      'white'  => '1GΩ',
-      'gold'   => '0.1Ω',
-      'silver' => '0.01Ω',
-    }
-
-    human_multiplier_values[@color]
+    HUMAN_COLOR_VALUES[@color]
   end
 
   def value
-    multiplier_values = {
-      'black'  => 1,
-      'brown'  => 10,
-      'red'    => 100,
-      'orange' => 1_000,
-      'yellow' => 10_000,
-      'green'  => 100_000,
-      'blue'   => 1_000_000,
-      'violet' => 10_000_000,
-      'grey'   => 100_000_000,
-      'gray'   => 100_000_000,
-      'white'  => 1_000_000_000,
-      'gold'   => 0.1,
-      'silver' => 0.01,
-    }
+    COLOR_VALUES[@color]
+  end
 
-    multiplier_values[@color]
+  class Validator
+    attr_reader :multiplier
+
+    def initialize(multiplier)
+      @multiplier = multiplier
+    end
+
+    def color
+      multiplier.color
+    end
+
+    def known_colors
+      COLOR_VALUES.keys
+    end
+
+    def message
+      "invalid multiplier color given: #{color}"
+    end
+
+    def validate!
+      raise ArgumentError, message unless known_colors.include? color
+    end
   end
 end
