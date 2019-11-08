@@ -1,9 +1,22 @@
-class Value
-  attr_reader :digits, :multiplier
+require_relative './digits'
+require_relative './multiplier'
 
-  def initialize(digits:, multiplier:)
-    @digits = digits
-    @multiplier = multiplier
+class Value
+  def initialize(digit_colors:, multiplier_color:)
+    @digits = Digits.new digit_colors
+    @multiplier = Multiplier.new multiplier_color
+  end
+
+  def digits
+    @digits.value
+  end
+
+  def human_multiplier
+    @multiplier.to_s
+  end
+
+  def multiplier
+    @multiplier.value
   end
 
   def value
