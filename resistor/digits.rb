@@ -1,31 +1,55 @@
 class Digits
+  COLOR_VALUES = {
+    'black'  => 0,
+    'brown'  => 1,
+    'red'    => 2,
+    'orange' => 3,
+    'yellow' => 4,
+    'green'  => 5,
+    'blue'   => 6,
+    'violet' => 7,
+    'gray'   => 8,
+    'grey'   => 8,
+    'white'  => 9,
+  }
+
   attr_reader :colors
 
   def initialize(colors)
     @colors = colors
 
-    known_digit_colors = %w[black brown red orange yellow green blue violet gray grey white]
-    invalid_digit_colors = @colors - known_digit_colors
-    raise ArgumentError, "invalid digit color(s) given: #{invalid_digit_colors.join(', ')}" if invalid_digit_colors.any?
+    Validator.new(self).validate!
   end
 
   def value
-    digit_values = {
-      'black'  => 0,
-      'brown'  => 1,
-      'red'    => 2,
-      'orange' => 3,
-      'yellow' => 4,
-      'green'  => 5,
-      'blue'   => 6,
-      'violet' => 7,
-      'gray'   => 8,
-      'grey'   => 8,
-      'white'  => 9,
-    }
+    @value ||= values.join.to_i
+  end
 
-    @colors.map do |color|
-      digit_values[color]
-    end.join.to_i
+  def values
+    @colors.map &COLOR_VALUES
+  end
+
+  class Validator
+    attr_reader :digits
+
+    def initialize(digits)
+      @digits = digits
+    end
+
+    def invalid_digit_colors
+      digits.colors - known_digit_colors
+    end
+
+    def known_digit_colors
+      COLOR_VALUES.keys
+    end
+
+    def message
+      "invalid digit color(s) given: #{invalid_digit_colors.join(', ')}"
+    end
+
+    def validate!
+      raise ArgumentError, message if invalid_digit_colors.any?
+    end
   end
 end
