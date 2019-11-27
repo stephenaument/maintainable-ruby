@@ -1,3 +1,4 @@
+# Translates digit color bands.
 class Digits
   COLOR_VALUES = {
     'black'  => 0,
@@ -18,7 +19,7 @@ class Digits
   def initialize(colors)
     @colors = colors
 
-    Validator.new(self).validate!
+    Validator.new(self, COLOR_VALUES.keys).validate!
   end
 
   def value
@@ -29,19 +30,17 @@ class Digits
     @colors.map &COLOR_VALUES
   end
 
+  # Validates digit color bands
   class Validator
-    attr_reader :digits
+    attr_reader :digits, :known_colors
 
-    def initialize(digits)
+    def initialize(digits, known_colors=[])
       @digits = digits
+      @known_colors = known_colors
     end
 
     def invalid_digit_colors
-      digits.colors - known_digit_colors
-    end
-
-    def known_digit_colors
-      COLOR_VALUES.keys
+      digits.colors - known_colors
     end
 
     def message

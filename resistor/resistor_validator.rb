@@ -1,3 +1,4 @@
+# Validates that the correct number of argements were provided.
 class ResistorValidator
   MAX_LENGTH = 5
   MIN_LENGTH = 4

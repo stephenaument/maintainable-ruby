@@ -1,3 +1,4 @@
+# Validates a single color band against a list of known colors.
 class SingleColorValidator
   attr_reader :known_colors, :subject
 

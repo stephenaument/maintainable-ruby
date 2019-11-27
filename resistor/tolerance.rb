@@ -1,5 +1,6 @@
 require_relative './single_color_validator'
 
+# Translates tolerance color bands
 class Tolerance
   COLOR_VALUES = {
     'brown'  => '±1%',

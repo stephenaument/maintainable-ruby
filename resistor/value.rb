@@ -2,6 +2,7 @@ require 'forwardable'
 require_relative './digits'
 require_relative './multiplier'
 
+# Translates digit and multiplier color bands.
 class Value
   extend Forwardable
 
