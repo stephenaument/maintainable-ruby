@@ -2,7 +2,26 @@ require 'minitest/autorun'
 require_relative './resistor'
 
 describe Resistor do
-  let(:subject) { Resistor.new(*%w[green blue yellow gold]) }
+  let(:four_colors) { %w[green blue yellow gold] }
+  let(:five_colors) { %w[red orange violet black brown] }
+  let(:colors) { four_colors }
+  let(:subject) { Resistor.new(*colors) }
+
+  describe '#digits' do
+    describe 'when given 4 color bands' do
+      it 'returns a 2 digit number' do
+        expect(subject.digits).must_equal 56
+      end
+    end
+
+    describe 'when given 5 color bands' do
+      let(:colors) { five_colors}
+
+      it 'returns a 3 digit number' do
+        expect(subject.digits).must_equal 237
+      end
+    end
+  end
 
   describe '#multiplier' do
     describe 'when given 4 colors' do
@@ -12,7 +31,7 @@ describe Resistor do
     end
 
     describe 'when given 5 colors' do
-      let(:subject) { Resistor.new(*%w[red orange violet black brown]) }
+      let(:colors) { five_colors }
 
       it 'returns the correct valeu' do
         expect(subject.multiplier).must_equal 1
@@ -56,7 +75,7 @@ describe Resistor do
     end
 
     describe 'when given 5 colors' do
-      let(:subject) { Resistor.new(*%w[red orange violet black brown]) }
+      let(:colors) { five_colors }
 
       it 'returns the correct value' do
         expect(subject.tolerance).must_equal '±1%'
