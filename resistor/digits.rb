@@ -1,3 +1,4 @@
+# Translates digit color bands.
 class Digits
   COLOR_VALUES = {
     'black'  => 0,
@@ -29,6 +30,7 @@ class Digits
     @colors.map &COLOR_VALUES
   end
 
+  # Validates digit color bands
   class Validator
     attr_reader :digits
 

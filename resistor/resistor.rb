@@ -3,6 +3,18 @@ require_relative './resistor_validator'
 require_relative './tolerance'
 require_relative './value'
 
+# Translates the color bands on a resistor. Can return the value of the resistor
+# in milliohms as an integer, the raw value of the digits represented by the
+# first 2 or 3 bands, the value as a human-readable string, the multiplier, and
+# the tolerance. It will also be able to render itself as a human-readable
+# string, "22kΩ ±0.5%", where 22k is the product of the value '22' and the
+# multiplier '1k', and ±0.5% is the tolerance.
+#
+# The colors are given as 4 or 5 strings.
+#
+#   Restistor.new('green', 'blue', 'yellow', 'gold').value #> 560_000_000
+#
+#   Resistor.human_value 'red', 'orange', 'violet', 'black', 'brown' #> '237Ω'
 class Resistor
   extend Forwardable
   attr_reader :colors

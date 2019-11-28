@@ -1,5 +1,6 @@
 require_relative './single_color_validator'
 
+# Translates multiplier color bands
 class Multiplier
   COLOR_VALUES = {
     'black'  => 1,
